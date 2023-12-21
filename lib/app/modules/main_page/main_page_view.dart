@@ -1,6 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
-
 import 'package:example_t_pop/app/data/models/seat_layout/seat_layout_models.dart';
+import 'package:example_t_pop/app/data/models/seats/seat_models.dart';
 import 'package:example_t_pop/app/modules/main_page/main_page_controller.dart';
 import 'package:example_t_pop/app/modules/main_page/widget/card_seat_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,7 +79,7 @@ class MainPageView extends GetView<MainPageController> {
                             )
                           : LayoutBuilder(
                               builder: (context, constraints) => Padding(
-                                    padding: EdgeInsets.only(top: constraints.maxWidth / 3.5),
+                                    padding: EdgeInsets.only(top: constraints.maxWidth / 8),
                                     child: Text(
                                       'กรุณาเลือกที่นั่ง',
                                       style: TextStyle(
@@ -88,6 +88,36 @@ class MainPageView extends GetView<MainPageController> {
                                       ),
                                     ),
                                   )),
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          margin: const EdgeInsets.only(left: 30),
+                          child: const Text(
+                            'Total',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        Obx(
+                          () => Container(
+                            margin: const EdgeInsets.only(right: 30),
+                            child: Text(
+                              "${controller.total.value}",
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ],
                 );
@@ -112,11 +142,12 @@ class MainPageView extends GetView<MainPageController> {
       ),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, mainAxisSize: MainAxisSize.min, children: [
         Text(
-          controller.selectedSeat.value[index].toString(),
+          controller.selectedSeat.value[index].seatNumber.toString(),
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         GestureDetector(
           onTap: () {
+            controller.totalMinus();
             controller.selectedSeat.remove(controller.selectedSeat.value[index]);
           },
           child: const Icon(
@@ -138,13 +169,13 @@ class MainPageView extends GetView<MainPageController> {
     );
   }
 
-  Widget titleSeatWidget() {
+  Widget titleSeatWidget({String? titie}) {
     return Container(
       alignment: Alignment.centerLeft,
       margin: const EdgeInsets.symmetric(horizontal: 30),
       child: LayoutBuilder(
         builder: (context, constraints) => Text(
-          'ที่นั่ง',
+          titie ?? 'ที่นั่ง',
           style: TextStyle(
             fontSize: constraints.maxWidth / 20,
           ),
@@ -201,10 +232,12 @@ class MainPageView extends GetView<MainPageController> {
           (index) {
             return Obx(
               () => CardSeatWidget(
-                onTap: () => controller.selectedMultipleItemSeat(
-                  seatNumber: state?.seats?[index].seatNumber ?? "",
-                ),
-                color: controller.selectedSeat.contains(state?.seats?[index].seatNumber ?? "") ? Colors.yellow : Colors.grey.shade300,
+                onTap: () {
+                  controller.selectedMultipleItemSeat(
+                    seatNumber: state!.seats![index],
+                  );
+                },
+                color: controller.selectedSeat.contains(state?.seats?[index] ?? SeatModels) ? Colors.yellow : Colors.grey.shade300,
               ),
             );
           },

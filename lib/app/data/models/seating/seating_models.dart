@@ -9,7 +9,6 @@ class SeatingModels {
   VenueModels? venue;
   @JsonKey(name: 'seatLayout')
   SeatLayoutModels? seatLayout;
-
   SeatingModels({
     this.venue,
     this.seatLayout,
