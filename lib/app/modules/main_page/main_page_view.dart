@@ -79,7 +79,7 @@ class MainPageView extends GetView<MainPageController> {
                             )
                           : LayoutBuilder(
                               builder: (context, constraints) => Padding(
-                                    padding: EdgeInsets.only(top: constraints.maxWidth / 8),
+                                    padding: EdgeInsets.only(top: constraints.maxWidth / 3.5),
                                     child: Text(
                                       'กรุณาเลือกที่นั่ง',
                                       style: TextStyle(
@@ -89,40 +89,41 @@ class MainPageView extends GetView<MainPageController> {
                                     ),
                                   )),
                     ),
-                    const SizedBox(
-                      height: 60,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          margin: const EdgeInsets.only(left: 30),
-                          child: const Text(
-                            'Total',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                        Obx(
-                          () => Container(
-                            margin: const EdgeInsets.only(right: 30),
-                            child: Text(
-                              "${controller.total.value}",
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
                   ],
                 );
               },
-            )
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.only(left: 30),
+                  child: const Text(
+                    'ราคาทั้งหมด',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Obx(
+                  () => Container(
+                    margin: const EdgeInsets.only(right: 30),
+                    child: Text(
+                      "${controller.total.value} บาท",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
           ],
         ),
       ),
